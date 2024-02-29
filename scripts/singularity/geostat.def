@@ -5,8 +5,12 @@ From: condaforge/mambaforge:latest
 ./geostat.yml
 
 %post
+export DEBIAN_FRONTEND=noninteractive #Fix tzdata prompt
 apt-get update && apt-get install -y git
+apt-get install -y libopenmpi-dev openmpi-bin
+
 mamba env create -q -y -f geostat.yml
+unset DEBIAN_FRONTEND
 
 %environment
 export PATH=/opt/conda/envs/geostat/bin:$PATH
