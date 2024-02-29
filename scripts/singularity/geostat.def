@@ -1,0 +1,22 @@
+Bootstrap: docker
+From: condaforge/mambaforge:latest
+
+%files
+./geostat.yml
+
+%post
+apt-get update && apt-get install -y git
+mamba env create -q -y -f geostat.yml
+
+%environment
+export PATH=/opt/conda/envs/geostat/bin:$PATH
+
+%runscript
+bash -c 'source /opt/conda/bin/activate geostat && exec python "$@"'
+
+%help
+The PATH environment variable is updated in %environment to include the path to the geostat env binaries, ensuring that any Python script is run using the interpreter from the geostat environment. ==> No need to activate the environment interactively.
+
+%labels
+Author Santa
+Version 1.0
