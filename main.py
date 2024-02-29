@@ -9,9 +9,9 @@ def main():
     Fi = 0.99
     x0 = 1
     threshold = 0.1
-    ds = xr.open_mfdataset("/mnt/d/climate_data/era_italy/tp.nc", parallel=True)
+    ds = xr.open_mfdataset("./data/tp.nc", parallel=True)
     ds = ds.chunk({"time": -1})
-    print("Dataset Loaded Successfully - Computing")
+    print("Dataset Loaded Successfully - Computing...")
     dparam = compute_mev_params(ds.tp, threshold)
     quantiles = compute_mev_quant(dparam, Fi, x0, threshold)
     plot_quantiles(
@@ -20,6 +20,7 @@ def main():
         clevs=np.linspace(2, 30, 15),
         filename="mev_100_it",
     )
+    print("Computation Complete")
 
 
 if __name__ == "__main__":
